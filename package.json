@@ -1,16 +1,17 @@
 {
-  "name": "my-templater",
-  "displayName": "My templater",
+  "name": "my-template",
+  "displayName": "My template",
   "version": "0.0.1",
-  "description": "This extention will help you create and store text templates",
-  "author": "AtinsS (RavenLife)",
+  "description": "templater for helpers",
+  "author": "AtinsS (Ravenl=Life)",
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
     "package": "plasmo package"
   },
   "dependencies": {
-    "plasmo": "0.90.5",
+    "@plasmohq/storage": "^1.15.0",
+    "plasmo": "^0.72.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
