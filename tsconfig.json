@@ -1,8 +1,6 @@
 {
   "extends": "plasmo/templates/tsconfig.base",
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "include": [
     ".plasmo/index.d.ts",
     "./**/*.ts",
@@ -10,11 +8,14 @@
     "./**/*.d.ts"
   ],
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
-      "~*": [
-        "./*"
-      ]
+      "~*": ["./*"]
     },
-    "baseUrl": "."
+    "types": [
+      "node",
+      "@testing-library/jest-dom",
+      "vitest"
+    ]
   }
 }

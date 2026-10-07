@@ -1,5 +1,7 @@
 import { useStorage } from "@plasmohq/storage/hook"
 import { useMemo, useState } from "react"
+import { filterTemplates } from "~lib/helpers"
+import type { Template } from "~types/types"
 import "./styles.css"
 
 function IndexPopup() {
@@ -13,16 +15,11 @@ function IndexPopup() {
   const [copiedId, setCopiedId] = useState<string | null>(null)
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
-  //Филтрация
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    if (!q) return templates
-    return templates.filter(
-      (t) =>
-        t.title.toLowerCase().includes(q) ||
-        t.template.toLowerCase().includes(q)
-    )
-  }, [templates, query])
+  //Фильтрация
+  const filtered = useMemo(
+    () => filterTemplates(templates, query),
+    [templates, query]
+  )
 
   //Действия
   const openCreate = () => {
@@ -275,7 +272,7 @@ function IndexPopup() {
         )}
       </div>
 
-      {/* Bottom sheet — create / edit */}
+      {/* {Модалка Редактировать/новый} */}
       {isModalOpen && (
         <div className="overlay" onClick={closeModal}>
           <div className="sheet" onClick={(e) => e.stopPropagation()}>
@@ -284,20 +281,22 @@ function IndexPopup() {
               {editingId ? "Редактировать шаблон" : "Новый шаблон"}
             </div>
 
-            <label className="label">Название</label>
+            <label className="label" htmlFor="tpl-title">Название</label>
             <input
+              id="tpl-title"
               className="field"
               type="text"
-              placeholder="Например: Приветствие"
+              placeholder="Приветствие"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               autoFocus
             />
 
-            <label className="label">Текст</label>
+            <label className="label" htmlFor="tpl-text">Текст</label>
             <textarea
+              id="tpl-text"
               className="field field--area"
-              placeholder="Текст шаблона, который нужно копировать…"
+              placeholder="**Добрый день**"
               rows={4}
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -319,7 +318,7 @@ function IndexPopup() {
         </div>
       )}
 
-      {/* Delete confirm */}
+      {/* Подтверждение удаления*/}
       {deleteId && (
         <div className="overlay" onClick={() => setDeleteId(null)}>
           <div
@@ -329,7 +328,7 @@ function IndexPopup() {
             <div className="sheet-handle" />
             <div className="sheet-title">Удалить шаблон?</div>
             <p className="alert-text">
-              Это действие нельзя отменить. Шаблон будет удалён навсегда.
+              Шаблон будет удалён навсегда! Прям вот совсем навсегда!
             </p>
             <div className="sheet-actions">
               <button
