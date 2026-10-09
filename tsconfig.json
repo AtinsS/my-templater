@@ -13,6 +13,7 @@
       "~*": ["./*"]
     },
     "types": [
+      "chrome",
       "node",
       "@testing-library/jest-dom",
       "vitest"

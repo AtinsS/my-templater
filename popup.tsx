@@ -1,11 +1,17 @@
-import { useStorage } from "@plasmohq/storage/hook"
 import { useMemo, useState } from "react"
-import { filterTemplates } from "~lib/helpers"
+
+import { useStorage } from "@plasmohq/storage/hook"
+
+import { filterTemplates, templateStorage } from "~lib/helpers"
 import type { Template } from "~types/types"
+
 import "./styles.css"
 
 function IndexPopup() {
-  const [templates, setTemplates] = useStorage<Template[]>("templates", [])
+  const [templates, setTemplates] = useStorage<Template[]>(
+    { key: "templates", instance: templateStorage },
+    []
+  )
 
   const [query, setQuery] = useState("")
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -60,7 +66,7 @@ function IndexPopup() {
       const newTemplate: Template = {
         id: crypto.randomUUID(),
         title: trimmedTitle,
-        template: trimmedText,
+        template: trimmedText
       }
       setTemplates([newTemplate, ...templates])
     }
@@ -69,9 +75,9 @@ function IndexPopup() {
   }
 
   const handleCopy = async (t: Template) => {
-      await navigator.clipboard.writeText(t.template)
-      setCopiedId(t.id)
-      setTimeout(() => setCopiedId(null), 1200)
+    await navigator.clipboard.writeText(t.template)
+    setCopiedId(t.id)
+    setTimeout(() => setCopiedId(null), 1200)
   }
 
   const handleDelete = () => {
@@ -98,9 +104,7 @@ function IndexPopup() {
           <div className="brand-text">
             <span className="brand-name">Мои шаблоны</span>
             <span className="brand-count">
-              {templates.length === 0
-                ? "пусто"
-                : `${templates.length} шт.`}
+              {templates.length === 0 ? "пусто" : `${templates.length} шт.`}
             </span>
           </div>
         </div>
@@ -125,8 +129,7 @@ function IndexPopup() {
             width="14"
             height="14"
             viewBox="0 0 14 14"
-            fill="none"
-          >
+            fill="none">
             <circle
               cx="6"
               cy="6"
@@ -175,15 +178,13 @@ function IndexPopup() {
             </div>
             <div className="empty-title">Нет шаблонов</div>
             <div className="empty-desc">
-              Пока что пусто, но ты можешь это изменить 
+              Пока что пусто, но ты можешь это изменить
             </div>
           </div>
         ) : filtered.length === 0 ? (
           <div className="empty empty--compact">
             <div className="empty-title">Ничего не найдено</div>
-            <div className="empty-desc">
-              Попробуй другой запрос
-            </div>
+            <div className="empty-desc">Попробуй другой запрос</div>
           </div>
         ) : (
           filtered.map((t) => (
@@ -194,15 +195,13 @@ function IndexPopup() {
                   <button
                     className={`icon-btn ${copiedId === t.id ? "is-ok" : ""}`}
                     onClick={() => handleCopy(t)}
-                    title="Копировать"
-                  >
+                    title="Копировать">
                     {copiedId === t.id ? (
                       <svg
                         width="14"
                         height="14"
                         viewBox="0 0 14 14"
-                        fill="none"
-                      >
+                        fill="none">
                         <path
                           d="M3 7.2l2.6 2.6L11 4.5"
                           stroke="currentColor"
@@ -216,8 +215,7 @@ function IndexPopup() {
                         width="14"
                         height="14"
                         viewBox="0 0 14 14"
-                        fill="none"
-                      >
+                        fill="none">
                         <rect
                           x="4.5"
                           y="4.5"
@@ -238,8 +236,7 @@ function IndexPopup() {
                   <button
                     className="icon-btn"
                     onClick={() => openEdit(t)}
-                    title="Редактировать"
-                  >
+                    title="Редактировать">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                       <path
                         d="M8.2 3.2l2.6 2.6M3 11l.7-2.6 6-6a1.2 1.2 0 011.7 0l1 1a1.2 1.2 0 010 1.7l-6 6L3 11z"
@@ -253,8 +250,7 @@ function IndexPopup() {
                   <button
                     className="icon-btn icon-btn--danger"
                     onClick={() => setDeleteId(t.id)}
-                    title="Удалить"
-                  >
+                    title="Удалить">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                       <path
                         d="M3 4.5h8M5.5 4.5V3.2A1.2 1.2 0 016.7 2h.6a1.2 1.2 0 011.2 1.2v1.3M4.2 4.5l.5 6.2A1.3 1.3 0 006 11.8h2a1.3 1.3 0 001.3-1.1l.5-6.2"
@@ -281,7 +277,9 @@ function IndexPopup() {
               {editingId ? "Редактировать шаблон" : "Новый шаблон"}
             </div>
 
-            <label className="label" htmlFor="tpl-title">Название</label>
+            <label className="label" htmlFor="tpl-title">
+              Название
+            </label>
             <input
               id="tpl-title"
               className="field"
@@ -292,7 +290,9 @@ function IndexPopup() {
               autoFocus
             />
 
-            <label className="label" htmlFor="tpl-text">Текст</label>
+            <label className="label" htmlFor="tpl-text">
+              Текст
+            </label>
             <textarea
               id="tpl-text"
               className="field field--area"
@@ -309,8 +309,7 @@ function IndexPopup() {
               <button
                 className="btn-primary btn-primary--block"
                 disabled={!canSave}
-                onClick={handleSave}
-              >
+                onClick={handleSave}>
                 {editingId ? "Сохранить" : "Добавить"}
               </button>
             </div>
@@ -323,8 +322,7 @@ function IndexPopup() {
         <div className="overlay" onClick={() => setDeleteId(null)}>
           <div
             className="sheet sheet--alert"
-            onClick={(e) => e.stopPropagation()}
-          >
+            onClick={(e) => e.stopPropagation()}>
             <div className="sheet-handle" />
             <div className="sheet-title">Удалить шаблон?</div>
             <p className="alert-text">
@@ -333,8 +331,7 @@ function IndexPopup() {
             <div className="sheet-actions">
               <button
                 className="btn-secondary"
-                onClick={() => setDeleteId(null)}
-              >
+                onClick={() => setDeleteId(null)}>
                 Отмена
               </button>
               <button className="btn-danger" onClick={handleDelete}>
@@ -344,6 +341,9 @@ function IndexPopup() {
           </div>
         </div>
       )}
+      <a href="https://github.com/AtinsS" target="_blank" className="my-link">
+        Мой Github
+      </a>
     </div>
   )
 }

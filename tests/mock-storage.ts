@@ -21,7 +21,11 @@ export function resetStorage() {
   memory.clear()
 }
 
-export function useStorage<T>(key: string, defaultValue: T): [T, AnySetter<T>] {
+export function useStorage<T>(
+  rawKey: string | { key: string },
+  defaultValue: T
+): [T, AnySetter<T>] {
+  const key = typeof rawKey === "string" ? rawKey : rawKey.key
   const [value, setValue] = useState<T>(
     () => (memory.has(key) ? (memory.get(key) as T) : defaultValue)
   )

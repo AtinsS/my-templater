@@ -1,33 +1,42 @@
-This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
+# Мои шаблоны — инструкция
 
-## Getting Started
+Расширение для Chrome: библиотека текстовых шаблонов для поддержки.  
+Создавай ответы один раз, копируй в два клика, сохраняй выделенный текст прямо со страницы.
 
-First, run the development server:
+---
 
-```bash
-pnpm dev
-# or
-npm run dev
-```
+## Установка
 
-Open your browser and load the appropriate development build. For example, if you are developing for the chrome browser, using manifest v3, use: `build/chrome-mv3-dev`.
+1. Напиши в адресной строке Chrome `chrome://extensions`.
+2. Включи «Режим разработчика».
+3. «Загрузить распакованное расширение» → выбери папку `build/chrome-mv3-prod` (или `build/chrome-mv3-dev` для отладки).
 
-You can start editing the popup by modifying `popup.tsx`. It should auto-update as you make changes. To add an options page, simply add a `options.tsx` file to the root of the project, with a react component default exported. Likewise to add a content page, add a `content.ts` file to the root of the project, importing some module and do some logic, then reload the extension on your browser.
+---
 
-For further guidance, [visit our Documentation](https://docs.plasmo.com/)
+## Как пользоваться
 
-## Making production build
+### Popup — работа с шаблонами
 
-Run the following:
+Клик по иконке расширения открывает список шаблонов.
 
-```bash
-pnpm build
-# or
-npm run build
-```
+Действия:
+**Создать:** Кнопка "+ Новый"
+**Скопировать:** Кнопка копирования на карточке — текст уходит в буфер обмена.
+**Изменить:** Кнопка карандаша → правь поля → «Сохранить» 
+**Удалить:** Кнопка корзины → подтверди удаление
+**Найти:**Строка поиска сверху — ищет и по названию, и по тексту 
 
-This should create a production bundle for your extension, ready to be zipped and published to the stores.
+### Контекстное меню — быстрое сохранение
 
-## Submit to the webstores
+1. Выдели текст на любой странице.
+2. ПКМ → **«💾 Сохранить как шаблон»**.
+3. Появится уведомление — шаблон добавлен.
 
-The easiest way to deploy your Plasmo extension is to use the built-in [bpp](https://bpp.browser.market) GitHub action. Prior to using this action however, make sure to build your extension and upload the first version to the store to establish the basic credentials. Then, simply follow [this setup instruction](https://docs.plasmo.com/framework/workflows/submit) and you should be on your way for automated submission!
+Название шаблона будет таким же, как выделенный фрагмент — потом можешь переименовать.
+
+---
+
+## Где хранятся данные
+
+Шаблоны лежат в `chrome.storage.local` браузера — **не** в облаке и **не** на сервере.  
+Синхронизация между устройствами не предусмотрена. Очистка данных расширения — это потеря шаблонов.

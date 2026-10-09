@@ -1,9 +1,13 @@
 {
   "name": "my-template",
-  "displayName": "My template",
-  "version": "0.0.1",
-  "description": "templater for helpers",
-  "author": "AtinsS (Ravenl=Life)",
+  "displayName": "My Template",
+  "version": "1.0.0",
+  "description": "Темплейтер! Служит на благо поддержки!",
+  "author": "AtinsS (Raven-Life)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AtinsS/my-template"
+  },
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
@@ -14,16 +18,17 @@
   },
   "dependencies": {
     "@plasmohq/storage": "^1.15.0",
-    "plasmo": "^0.72.0",
+    "plasmo": "^0.90.5",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
+    "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.5.2",
-    "@types/chrome": "0.0.258",
+    "@types/chrome": "^0.0.258",
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
@@ -31,9 +36,15 @@
     "jsdom": "^25.0.1",
     "prettier": "3.2.4",
     "typescript": "5.3.3",
-    "vitest": "^2.1.9"
+    "vite": "^6.4.0",
+    "vitest": "^5.0.3"
   },
   "manifest": {
+    "permissions": [
+      "contextMenus",
+      "notifications",
+      "storage"
+    ],
     "host_permissions": [
       "https://*/*"
     ]
