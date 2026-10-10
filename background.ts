@@ -4,8 +4,7 @@ import type { Template } from "~types/types"
 
 const MENU_ID = "save-selection-as-snippet"
 
-// Plasmo не копирует assets/ в build — только icon*.plasmo.<hash>.png.
-// Относительный "./assets/icon.png" не резолвится, и chrome.notifications.create молча не показывает UI.
+
 function notify(title: string, message: string) {
   const icons = chrome.runtime.getManifest().icons
   const iconUrl = chrome.runtime.getURL(icons?.["48"] ?? icons?.["128"] ?? "")
@@ -54,7 +53,7 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
 
     await templateStorage.set("templates", [newTemplate, ...templates])
 
-    notify("✅ Шаблон сохранен!", "Текст добавлен в расширение. Открой popup, чтобы изменить название.")
+    notify("✅ Шаблон сохранен!", "Текст добавлен в расширение. Открой расширение, чтобы изменить название.")
   } catch (error) {
     console.error("Ошибка при сохранении:", error)
     notify("❌ Ошибка", "Не удалось сохранить шаблон. Проверьте консоль расширения.")
