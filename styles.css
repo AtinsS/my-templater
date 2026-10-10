@@ -584,4 +584,5 @@ body {
 
 .my-link {
     margin: 5px 10px;
+    color: var(--accent)
 }
