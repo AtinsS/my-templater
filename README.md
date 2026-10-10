@@ -6,7 +6,7 @@
 
 ## Установка
 
-1. Скачай последний релиз: [Releases](https://github.com/AtinsS/my-templater/releases)
+1. Скачай последний релиз (chrome-mv3-prod.zip): [Releases](https://github.com/AtinsS/my-templater/releases)
 2. Напиши в адресной строке Chrome `chrome://extensions`.
 3. Включи «Режим разработчика».
 4. «Загрузить распакованное расширение» → выбери `chrome-mv3-prod`.
