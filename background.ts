@@ -13,7 +13,7 @@ function notify(title: string, message: string) {
     { type: "basic", iconUrl, title, message },
     () => {
       if (chrome.runtime.lastError) {
-        console.error("[Snippet Saver] notifications:", chrome.runtime.lastError.message)
+        console.error("[My Templater] Уведомление об ошибке:", chrome.runtime.lastError.message)
       }
     }
   )
@@ -21,7 +21,7 @@ function notify(title: string, message: string) {
 
 // 1. Создаем пункт меню при установке или обновлении расширения и выделяем шаблоон
 chrome.runtime.onInstalled.addListener(() => {
-  // removeAll — чтобы не словить "duplicate id" при reload в dev
+  // removeAll — чтобы не словить "duplicate id" при перезагрузке в деве
   chrome.contextMenus.removeAll(() => {
     chrome.contextMenus.create({
       id: MENU_ID,
@@ -38,7 +38,7 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
   const selectedText = info.selectionText?.trim()
 
   if (!selectedText) {
-    console.warn("Выделенный текст пуст")
+    console.warn("[My Templater] Выделенный текст пуст")
     return
   }
 
@@ -53,9 +53,9 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
 
     await templateStorage.set("templates", [newTemplate, ...templates])
 
-    notify("✅ Шаблон сохранен!", "Текст добавлен в расширение. Открой расширение, чтобы изменить название.")
+    notify("✅ Шаблон сохранен!", "Текст добавлен в расширение.")
   } catch (error) {
-    console.error("Ошибка при сохранении:", error)
-    notify("❌ Ошибка", "Не удалось сохранить шаблон. Проверьте консоль расширения.")
+    console.error("[My Templater] Ошибка при сохранении:", error)
+    notify("❌ Ошибка", "Не удалось сохранить шаблон.")
   }
 })
