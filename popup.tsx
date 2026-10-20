@@ -341,7 +341,7 @@ function IndexPopup() {
                 className="btn-primary btn-primary--block"
                 disabled={!canSave}
                 onClick={handleSave}>
-                {editingId ? "Сохранить" : "Добавить"}
+                {editingId ? "СохранМОить" : "Добавить"}
               </button>
             </div>
           </div>
