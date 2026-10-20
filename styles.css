@@ -582,7 +582,28 @@ body {
     margin-top: 14px;
 }
 
-.my-link {
+.links {
     margin: 5px 10px;
-    color: var(--accent)
+    display: flex;
+    gap: 10px;
+}
+
+.download {
+    color: var(--text-dim);
+    transition: color 0.3s ease-in-out;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--text-faint);
+    }
+}
+
+.my-link {
+    color: var(--accent);
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+        color: rgba(120, 110, 209, 0.5);
+    }
 }

@@ -3,9 +3,11 @@ import { useMemo, useState } from "react"
 import { useStorage } from "@plasmohq/storage/hook"
 
 import { filterTemplates, templateStorage } from "~lib/helpers"
-import type { Template } from "~types/types"
+import type { BackupFile, Template } from "~types/types"
 
 import "./styles.css"
+
+import { P } from "~node_modules/vitest/dist/chunks/plugin.d.BsjqSb4-"
 
 function IndexPopup() {
   const [templates, setTemplates] = useStorage<Template[]>(
@@ -86,6 +88,35 @@ function IndexPopup() {
   }
 
   const canSave = title.trim().length > 0 && text.trim().length > 0
+
+  //Экспорт
+  const handleExport = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const payload = {
+      app: "my-templater",
+      schemaVersion: 1,
+      exportedAt: new Date().toISOString(),
+      templates
+    }
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {
+      type: "application/json"
+    })
+    const url = URL.createObjectURL(blob)
+    const a = e.currentTarget
+    a.href = url
+    a.download = `my-templater-${new Date().toISOString().slice(0, 10)}.json`
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
+  }
+
+  //Импорт
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const data: BackupFile = JSON.parse(await file.text())
+    const list = Array.isArray(data) ? data : data.templates
+    if (!list) return
+    setTemplates([...list, ...templates])
+    e.target.value = ""
+  }
 
   return (
     <div className="popup">
@@ -341,9 +372,25 @@ function IndexPopup() {
           </div>
         </div>
       )}
-      <a href="https://github.com/AtinsS" target="_blank" className="my-link">
-        Мой Github
-      </a>
+      <div className="links">
+        <a href="https://github.com/AtinsS" target="_blank" className="my-link">
+          Мой Github
+        </a>
+        {templates.length > 0 && (
+          <a className="download" onClick={handleExport}>
+            Экспорт
+          </a>
+        )}
+        <label className="download import">
+          Импорт
+          <input
+            type="file"
+            accept=".json,application/json"
+            hidden
+            onChange={handleFileChange}
+          />
+        </label>
+      </div>
     </div>
   )
 }
